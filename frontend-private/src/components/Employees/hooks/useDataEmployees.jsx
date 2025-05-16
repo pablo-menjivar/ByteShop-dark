@@ -65,7 +65,7 @@ const useDataEmployees = () => {
           fetchData()
         } catch (error) {
           setError(error.message); // Muestra el mensaje de error correspondiente
-          console.error("Error:", error)
+          console.error("Error: ", error)
           alert("Error", "Ocurrió un error al registrar el empleado")
             toast.error('Ocurrió un error al registrar el empleado')
         } finally {
@@ -103,7 +103,7 @@ const useDataEmployees = () => {
             throw new Error("Hubo un error al eliminar el empleado")
           }
           const result = await response.json()
-          console.log("Deleted:", result)
+          console.log("Deleted: ", result)
           toast.success('Empleado eliminado')
           // Actualizar la lista después de borrar
           setEmployees(data.filter(employee => employee._id !== id));
@@ -153,7 +153,7 @@ const useDataEmployees = () => {
         } catch (error) {
           setError(error.message)
           alert("Error al actualizar el empleado")
-          console.error("Error:", errorEmpleado)
+          console.error("Error: ", errorEmpleado)
         } finally {
           setLoading(false)
         }

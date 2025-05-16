@@ -29,4 +29,4 @@ export const fetchData = async (endPoint, form = null, action = null) => {
     console.error('Fetch error:', error);
     throw error;
   }
-};
+}

@@ -86,7 +86,7 @@ const useDataCategories = () => {
             throw new Error("Hubo un error al eliminar la categoría")
           }
           const result = await response.json()
-          console.log("Deleted:", result)
+          console.log("Deleted: ", result)
           toast.success('Categoría eliminada')
           // Actualizar la lista después de borrar
           setCategories(data.filter(categories => categories._id !== id));
@@ -130,7 +130,7 @@ const useDataCategories = () => {
         } catch (error) {
           setError(error.message)
           alert("Error al actualizar el empleado")
-          console.error("Error:", errorEmpleado)
+          console.error("Error: ", errorEmpleado)
         } finally {
           setLoading(false)
         }

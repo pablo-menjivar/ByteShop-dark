@@ -25,15 +25,15 @@ const useDataBrands = () => {
             return
             }
             try {
-            const newCategorie = { name }
-            console.log(newCategorie, "- datos de la marca")
+            const newBrand = { name }
+            console.log(newBrand, "- datos de la marca")
         
             const response = await fetch(ApiBrands, {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
                 },
-                body: JSON.stringify(newCategorie),
+                body: JSON.stringify(newBrand),
             })
             if (!response.ok) {
                 throw new Error("Hubo un error al agregar la marca")
@@ -47,8 +47,8 @@ const useDataBrands = () => {
             } catch (error) {
             setError(error.message) // Muestra el mensaje de error correspondiente
             console.error("Error:", error)
-            alert("Error", "Ocurrió un error al registrar la marca")
-                toast.error('Ocurrió un error al registrar la marca')
+            alert("Error", "Ocurrió un error al crear la marca")
+                toast.error('Ocurrió un error al crear la marca')
             } finally {
             setLoading(false)
             }
@@ -84,7 +84,7 @@ const useDataBrands = () => {
                 throw new Error("Hubo un error al eliminar la marca")
             }
             const result = await response.json()
-            console.log("Deleted:", result)
+            console.log("Deleted: ", result)
             toast.success('Marca eliminada')
             // Actualizar la lista después de borrar
             setBrands(data.filter(marcas => marcas._id !== id));
@@ -126,8 +126,8 @@ const useDataBrands = () => {
             fetchData() // Volver a cargar la lista
             } catch (error) {
             setError(error.message)
-            alert("Error al actualizar el empleado")
-            console.error("Error:", errorEmpleado)
+            alert("Error al actualizar la marca")
+            console.error("Error: ", errorMarcas)
             } finally {
             setLoading(false)
             }
