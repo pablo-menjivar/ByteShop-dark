@@ -58,7 +58,7 @@ const useDataCategories = () => {
       // Función para obtener los datos de las categorías (GET/READ/SELECT)
       const fetchData = async () => {
         try {
-          const response = await fetch(ApiEmployees)
+          const response = await fetch(ApiCategories)
           if (!response.ok) {
             throw new Error("La respuesta de la red no fue correcta")
           }
@@ -130,7 +130,7 @@ const useDataCategories = () => {
         } catch (error) {
           setError(error.message)
           alert("Error al actualizar el empleado")
-          console.error("Error: ", errorEmpleado)
+          console.error("Error: ", errorCategorias)
         } finally {
           setLoading(false)
         }
