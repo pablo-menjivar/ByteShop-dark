@@ -75,24 +75,26 @@ const useDataBrands = () => {
         // Función para eliminar una marca (DELETE)
         const deleteBrand = async (id) => {
             try {
-            const response = await fetch( `${ApiBrands}/${id}`,
-                {
-                method: "DELETE", body: JSON.stringify(deleteBrand)
+                const response = await fetch(`${ApiBrands}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                })
+                // Quitar body: JSON.stringify(deleteBrand)
+            // Ya que esta request no necesita un .json body
+                if (!response.ok) {
+                throw new Error("Hubo un error al eliminar la marca");
                 }
-            )
-            if (!response.ok) {
-                throw new Error("Hubo un error al eliminar la marca")
-            }
-            const result = await response.json()
-            console.log("Deleted: ", result)
-            toast.success('Marca eliminada')
-            // Actualizar la lista después de borrar
-            setBrands(data.filter(marcas => marcas._id !== id));
-            fetchData();
+                toast.success('Marca eliminada');
+                // Actualizar el estado inmediatamente ya que el fetchData no funciona de momento
+                setBrands(prevBrands => prevBrands.filter(brand => brand._id !== id));
             } catch (error) {
-            console.error("Error al eliminar marca sfs :", error)
+                console.error("Error al eliminar marca:", error);
+                toast.error('Error al eliminar la marca');
+                fetchData() // Revert UI if API fails
             }
-        }
+        };
         // Función para actualizar una marca (PUT/UPDATE)
         const updateBrand = async (dataBrand) => {
             setId(dataBrand._id)

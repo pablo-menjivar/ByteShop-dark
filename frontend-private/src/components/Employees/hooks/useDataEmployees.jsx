@@ -94,22 +94,24 @@ const useDataEmployees = () => {
       // Función para eliminar un empleado (DELETE)
       const deleteEmployee = async (id) => {
         try {
-          const response = await fetch( `${ApiEmployees}/${id}`,
-            {
-              method: "DELETE", body: JSON.stringify(deleteEmployee)
-            }
-          )
+          const response = await fetch(`${ApiEmployees}/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          // Quitar body: JSON.stringify(deleteBrand)
+          // Ya que esta request no necesita un .json body
           if (!response.ok) {
-            throw new Error("Hubo un error al eliminar el empleado")
+            throw new Error("Hubo un error al eliminar el empleado");
           }
-          const result = await response.json()
-          console.log("Deleted: ", result)
-          toast.success('Empleado eliminado')
-          // Actualizar la lista después de borrar
-          setEmployees(data.filter(employee => employee._id !== id));
-          fetchData();
+          toast.success('Empleado eliminado');
+          // Actualizar el estado inmediatamente ya que el fetchData no funciona de momento
+          setEmployees(prevEmployees => prevEmployees.filter(employee => employee._id !== id));
         } catch (error) {
-          console.error("Error deleting employee sfs:", error)
+          console.error("Error al eliminar empleado:", error);
+          toast.error('Error al eliminar el empleado');
+          fetchData(); // Revert UI if API fails
         }
       }
       const updateEmployee = async (dataEmployee) => {

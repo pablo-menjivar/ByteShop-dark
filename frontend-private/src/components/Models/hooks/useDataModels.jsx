@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import toast, { Toaster } from 'react-hot-toast'
 
 const useDataModels = () => {
-    const ApiModels="http://localhost:4000/api/brands"
+    const ApiModels="http://localhost:4000/api/models"
 
     const [activeTab, setActiveTab] = useState("list")
         const [id, setId] = useState("")
@@ -56,7 +56,7 @@ const useDataModels = () => {
         // Función para obtener los datos de los modelos (GET/READ/SELECT)
         const fetchData = async () => {
             try {
-            const response = await fetch(ApiEmployees)
+            const response = await fetch(ApiModels)
             if (!response.ok) {
                 throw new Error("La respuesta de la red no fue correcta")
             }
@@ -73,25 +73,27 @@ const useDataModels = () => {
             fetchData()
         }, [])
         // Función para eliminar un modelo (DELETE)
-        const deleteBrand = async (id) => {
-            try {
-            const response = await fetch( `${ApiBrands}/${id}`,
-                {
-                method: "DELETE", body: JSON.stringify(deleteBrand)
-                }
-            )
+        const deleteModel = async (id) => {
+        try {
+            const response = await fetch(`${ApiModels}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // Quitar body: JSON.stringify(deleteBrand)
+            // Ya que esta request no necesita un .json body
+            })
             if (!response.ok) {
-                throw new Error("Hubo un error al eliminar el modelo")
+            throw new Error("Hubo un error al eliminar el modelo");
             }
-            const result = await response.json()
-            console.log("Deleted: ", result)
-            toast.success('Modelo eliminado')
-            // Actualizar la lista después de borrar
-            setModels(data.filter(modelos => modelos._id !== id));
-            fetchData();
-            } catch (error) {
-            console.error("Error al eliminar modelo sfs :", error)
-            }
+            toast.success('Modelo eliminado');
+            
+            setModels(prevModels => prevModels.filter(model => model._id !== id))
+        } catch (error) {
+            console.error("Error al eliminar modelo: ", error)
+            toast.error('Error al eliminar el modelo')
+            fetchData()
+        }
         }
         // Función para actualizar un modelo (PUT/UPDATE)
         const updateModel = async (dataModel) => {

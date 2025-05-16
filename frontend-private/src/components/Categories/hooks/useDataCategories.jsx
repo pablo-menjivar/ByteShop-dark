@@ -77,24 +77,26 @@ const useDataCategories = () => {
       // Función para eliminar una categoría (DELETE)
       const deleteCategorie = async (id) => {
         try {
-          const response = await fetch( `${ApiCategories}/${id}`,
-            {
-              method: "DELETE", body: JSON.stringify(deleteCategorie)
-            }
-          )
+          const response = await fetch(`${ApiCategories}/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          // Quitar body: JSON.stringify(deleteBrand)
+          // Ya que esta request no necesita un .json body
           if (!response.ok) {
-            throw new Error("Hubo un error al eliminar la categoría")
+            throw new Error("Hubo un error al eliminar la categoría");
           }
-          const result = await response.json()
-          console.log("Deleted: ", result)
-          toast.success('Categoría eliminada')
-          // Actualizar la lista después de borrar
-          setCategories(data.filter(categories => categories._id !== id));
-          fetchData();
+          toast.success('Categoría eliminada');   
+          // Actualizar el estado inmediatamente ya que el fetchData no funciona de momento
+          setCategories(prevCategories => prevCategories.filter(category => category._id !== id));
         } catch (error) {
-          console.error("Error al eliminar categoría sfs :", error)
+          console.error("Error al eliminar categoría: ", error);
+          toast.error('Error al eliminar la categoría');
+          fetchData()
         }
-      }
+      };
       // Función para actualizar una categoría (PUT/UPDATE)
       const updateCategorie = async (dataCategorie) => {
         setId(dataCategorie._id)
